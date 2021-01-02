@@ -10,7 +10,8 @@ namespace doggo.Controllers
     {
         public IActionResult Index()
         {
-           
+            // TODO
+            return Ok(true);
         }
     }
 }

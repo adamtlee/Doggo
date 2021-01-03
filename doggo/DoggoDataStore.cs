@@ -23,7 +23,7 @@ namespace doggo
                     Email = "bob@mail.com",
                     Address = "Happy Trees Ct. 3004 Ave.",
                     Phone = "303-000-0000",
-                    Dog = new List<Dog>()
+                    Dogs = new List<Dog>()
                     {
                         new Dog()
                         {
@@ -49,7 +49,7 @@ namespace doggo
                     Email = "harry@mail.com",
                     Address = "Hogwarts Wiz Ct. 3004 Ave.",
                     Phone = "303-111-0000",
-                    Dog = new List<Dog>()
+                    Dogs = new List<Dog>()
                     {
                         new Dog()
                         {

@@ -13,8 +13,20 @@ namespace doggo.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // TODO
             return Ok(DoggoDataStore.DoggoData.Clients);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetClientById(int id)
+        {
+            var clientToReturn = DoggoDataStore.DoggoData.Clients
+                                    .FirstOrDefault(c => c.Id == id);
+            if (clientToReturn == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(clientToReturn);
         }
     }
 }

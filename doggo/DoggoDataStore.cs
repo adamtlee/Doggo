@@ -29,6 +29,7 @@ namespace doggo
                         {
                             Id = 1, 
                             Name = "Tyco",
+                            ShortName = "Tyc",
                             Breed = "Poodle", 
                             Birth = "July 10, 2018"
                         },
@@ -36,6 +37,7 @@ namespace doggo
                         {
                             Id = 2,
                             Name = "Maxxie",
+                            ShortName = "Max",
                             Breed = "Huskie",
                             Birth = "July 11, 2019"
                         }
@@ -55,6 +57,7 @@ namespace doggo
                         {
                             Id = 1,
                             Name = "Gary",
+                            ShortName = "Gar",
                             Breed = "Bulldog",
                             Birth = "November 10, 2018"
                         },
@@ -62,6 +65,7 @@ namespace doggo
                         {
                             Id = 2,
                             Name = "Haggie",
+                            ShortName = "Hag",
                             Breed = "Pitbull",
                             Birth = "July 15, 2019"
                         }

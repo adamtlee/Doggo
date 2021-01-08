@@ -37,6 +37,16 @@ namespace doggo.Controllers
         public IActionResult CreateDog(int clientId, 
             [FromBody] NewDogForCreationDto dog)
         {
+            if (dog.Name == dog.ShortName)
+            {
+                ModelState.AddModelError(
+                    "ShortName",
+                    "The Name and Short Name cannot be the same (please use less characters with short name field)");
+            } 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var client = DoggoDataStore.DoggoData.Clients.FirstOrDefault(c => c.Id == clientId);
             if (client == null)
             {

@@ -9,6 +9,7 @@ namespace doggo.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ShortName { get; set; }
         public string Birth { get; set; }
         public string Breed { get; set; }
     }

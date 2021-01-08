@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace doggo.Models
 {
-    public class Client
+    public class ClientDto
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -13,7 +13,7 @@ namespace doggo.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public ICollection<Dog> Dogs { get; set; }
-             = new List<Dog>();
+        public ICollection<DogDto> Dogs { get; set; }
+             = new List<DogDto>();
     }
 }

@@ -9,13 +9,13 @@ namespace doggo
     public class DoggoDataStore
     {
         public static DoggoDataStore DoggoData { get; } = new DoggoDataStore();
-        public List<Client> Clients { get; set; }
+        public List<ClientDto> Clients { get; set; }
 
         public DoggoDataStore()
         {
-            Clients = new List<Client>()
+            Clients = new List<ClientDto>()
             {
-                new Client()
+                new ClientDto()
                 {
                     Id = 1,
                     FirstName = "Bob",
@@ -23,16 +23,16 @@ namespace doggo
                     Email = "bob@mail.com",
                     Address = "Happy Trees Ct. 3004 Ave.",
                     Phone = "303-000-0000",
-                    Dogs = new List<Dog>()
+                    Dogs = new List<DogDto>()
                     {
-                        new Dog()
+                        new DogDto()
                         {
                             Id = 1, 
                             Name = "Tyco",
                             Breed = "Poodle", 
                             Birth = "July 10, 2018"
                         },
-                         new Dog()
+                         new DogDto()
                         {
                             Id = 2,
                             Name = "Maxxie",
@@ -41,7 +41,7 @@ namespace doggo
                         }
                     }
                 },
-                new Client()
+                new ClientDto()
                 {
                     Id = 2,
                     FirstName = "Harry",
@@ -49,16 +49,16 @@ namespace doggo
                     Email = "harry@mail.com",
                     Address = "Hogwarts Wiz Ct. 3004 Ave.",
                     Phone = "303-111-0000",
-                    Dogs = new List<Dog>()
+                    Dogs = new List<DogDto>()
                     {
-                        new Dog()
+                        new DogDto()
                         {
                             Id = 1,
                             Name = "Gary",
                             Breed = "Bulldog",
                             Birth = "November 10, 2018"
                         },
-                         new Dog()
+                         new DogDto()
                         {
                             Id = 2,
                             Name = "Haggie",

@@ -13,6 +13,9 @@ namespace doggo.Services
         IEnumerable<Dog> GetDogsForClient(int clientId);
         Dog GetDogForClient(int clientId, int dogId);
         bool ClientExists(int clientId);
+        void AddDogForClient(int clientId, Dog dog);
+        bool Save();
+
 
     }
 }

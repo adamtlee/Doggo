@@ -48,5 +48,15 @@ namespace doggo.Services
             return _context.Dogs
                 .Where(d => d.ClientId == clientId).ToList();
         }
+
+        public void AddDogForClient(int clientId, Dog dog)
+        {
+            var client = GetClient(clientId, false);
+            client.Dogs.Add(dog);
+        }
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
     }
 }

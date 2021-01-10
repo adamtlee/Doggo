@@ -11,6 +11,7 @@ namespace doggo.Profiles
         public DogProfile()
         {
             CreateMap<Entities.Dog, Models.DogDto>();
+            CreateMap<Models.DogForCreationDto, Entities.Dog>();
         }
     }
 }

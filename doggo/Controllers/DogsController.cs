@@ -61,7 +61,7 @@ namespace doggo.Controllers
             return Ok(_mapper.Map<DogDto>(dog));
         }
 
-        /*
+        
         [HttpPost]
         public IActionResult CreateDog(int clientId, 
             [FromBody] DogForCreationDto dog)
@@ -76,31 +76,24 @@ namespace doggo.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var client = DoggoDataStore.DoggoData.Clients.FirstOrDefault(c => c.Id == clientId);
-            if (client == null)
+           
+            if (!_clientInfoRepository.ClientExists(clientId))
             {
                 return NotFound();
             }
 
-            var maxIndexDogId = DoggoDataStore.DoggoData.Clients.SelectMany(
-                c => c.Dogs).Max(d => d.Id);
+            var finalDog = _mapper.Map<Entities.Dog>(dog);
 
-            var finalDog = new DogDto()
-            {
-                Id = ++maxIndexDogId,
-                Name = dog.Name,
-                ShortName = dog.ShortName,
-                Breed = dog.Breed,
-                Birth = dog.Birth
-            };
+            _clientInfoRepository.AddDogForClient(clientId, finalDog);
+            _clientInfoRepository.Save();
 
-            client.Dogs.Add(finalDog);
+            var createdDogToReturn = _mapper
+                .Map<Models.DogDto>(finalDog);
 
             return CreatedAtRoute(
                 "GetDog",
-                new { clientId = clientId, id = finalDog.Id },
-                finalDog);
+                new { clientId = clientId, id = createdDogToReturn.Id },
+                createdDogToReturn);
         }
-        */
     }
 }

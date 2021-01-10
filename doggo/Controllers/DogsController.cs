@@ -53,26 +53,29 @@ namespace doggo.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "GetDogs")]
+        [HttpGet("{id}", Name = "GetDog")]
         public IActionResult GetDogs(int clientId, int id)
         {
-            var client = DoggoDataStore.DoggoData.Clients
-                .FirstOrDefault(c => c.Id == clientId);
-
-            if (client == null)
+           if (!_clientInfoRepository.ClientExists(clientId))
             {
                 return NotFound();
             }
 
-            var dogs = client.Dogs
-                .FirstOrDefault(c => c.Id == id);
-
-            if(dogs == null)
+            var dog = _clientInfoRepository.GetDogForClient(clientId, id);
+            if (dog == null)
             {
                 return NotFound();
             }
+            var dogResult = new DogDto()
+            {
+                Id = dog.Id,
+                Name = dog.Name,
+                ShortName = dog.ShortName,
+                Breed = dog.Breed,
+                Birth = dog.Breed
+            };
 
-            return Ok(dogs);
+            return Ok(dogResult);
         }
 
         [HttpPost]

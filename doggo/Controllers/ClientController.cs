@@ -1,4 +1,5 @@
-﻿using doggo.Models;
+﻿using AutoMapper;
+using doggo.Models;
 using doggo.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,32 +14,22 @@ namespace doggo.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientInfoRepository _clientInfoRepository;
-        public ClientController(IClientInfoRepository clientInfoRepository)
+        private readonly IMapper _mapper;
+        
+        public ClientController(IClientInfoRepository clientInfoRepository, IMapper mapper)
         {
             _clientInfoRepository = clientInfoRepository ??
                 throw new ArgumentException(nameof(clientInfoRepository));
+            _mapper = mapper ??
+                throw new ArgumentException(nameof(mapper));
         }
 
         [HttpGet]
         public IActionResult GetClients()
         {
             var clientEntities = _clientInfoRepository.GetClients();
-            var results = new List<ClientWithoutDogsDto>();
-
-            foreach (var clientEntity in clientEntities)
-            {
-                results.Add(new ClientWithoutDogsDto
-                {
-                    Id = clientEntity.Id,
-                    FirstName = clientEntity.FirstName,
-                    LastName = clientEntity.LastName,
-                    Email = clientEntity.Email,
-                    Address = clientEntity.Address,
-                    Phone = clientEntity.Phone
-                });
-            }
-
-            return Ok(results);
+            
+            return Ok(_mapper.Map<IEnumerable<ClientWithoutDogsDto>>(clientEntities));
         }
 
         [HttpGet("{id}")]
@@ -53,43 +44,10 @@ namespace doggo.Controllers
 
             if (includeDogs)
             {
-                var clientResult = new ClientDto()
-                {
-                    Id = client.Id,
-                    FirstName = client.FirstName,
-                    LastName = client.LastName,
-                    Email = client.Email,
-                    Address = client.Address,
-                    Phone = client.Phone
-                };
-
-                foreach (var dog in client.Dogs)
-                {
-                    clientResult.Dogs.Add(
-                        new DogDto()
-                        {
-                            Id = dog.Id,
-                            Name = dog.Name,
-                            ShortName = dog.ShortName,
-                            Birth = dog.Birth,
-                            Breed = dog.Breed
-                        });
-                }
-
-                return Ok(clientResult);
+                return Ok(_mapper.Map<ClientDto>(client));
             }
 
-            var clientWithoutDogsResult = 
-                new ClientWithoutDogsDto(){
-                Id = client.Id,
-                FirstName = client.FirstName,
-                LastName = client.LastName,
-                Email = client.Email,
-                Address = client.Address,
-                Phone = client.Phone
-            };
-
-            return Ok(clientWithoutDogsResult);
+            return Ok(_mapper.Map<ClientWithoutDogsDto>(client));
         }    
     }
 }

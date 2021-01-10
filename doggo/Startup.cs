@@ -1,3 +1,4 @@
+using AutoMapper;
 using doggo.Contexts;
 using doggo.Services;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,7 @@ namespace doggo
                 o.UseSqlServer(connectionString);
             });
             services.AddScoped<IClientInfoRepository, ClientInfoRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

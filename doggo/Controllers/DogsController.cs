@@ -1,4 +1,5 @@
-﻿using doggo.Models;
+﻿using AutoMapper;
+using doggo.Models;
 using doggo.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,11 +14,14 @@ namespace doggo.Controllers
     public class DogsController : ControllerBase
     {
         private readonly IClientInfoRepository _clientInfoRepository;
+        private readonly IMapper _mapper; 
 
-        public DogsController(IClientInfoRepository clientInfoRepository)
+        public DogsController(IClientInfoRepository clientInfoRepository, IMapper mapper)
         {
             _clientInfoRepository = clientInfoRepository ??
                 throw new ArgumentException(nameof(clientInfoRepository));
+            _mapper = mapper ??
+                throw new ArgumentException(nameof(mapper));
         }
 
         [HttpGet]
@@ -32,23 +36,10 @@ namespace doggo.Controllers
 
                 var dogsOfClient = _clientInfoRepository.GetDogsForClient(clientId);
 
-                var dogsOfClientResults = new List<DogDto>();
-                foreach (var dog in dogsOfClient)
-                {
-                    dogsOfClientResults.Add(new DogDto()
-                    {
-                        Id = dog.Id,
-                        Name = dog.Name,
-                        ShortName = dog.ShortName,
-                        Breed = dog.Breed,
-                        Birth = dog.Birth
-                    });
-                }
-                return Ok(dogsOfClientResults);
+                return Ok(_mapper.Map<IEnumerable<DogDto>>(dogsOfClient));
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
                 return StatusCode(500, "A problem occured when handling the request");
             }
         }
@@ -66,18 +57,11 @@ namespace doggo.Controllers
             {
                 return NotFound();
             }
-            var dogResult = new DogDto()
-            {
-                Id = dog.Id,
-                Name = dog.Name,
-                ShortName = dog.ShortName,
-                Breed = dog.Breed,
-                Birth = dog.Breed
-            };
 
-            return Ok(dogResult);
+            return Ok(_mapper.Map<DogDto>(dog));
         }
 
+        /*
         [HttpPost]
         public IActionResult CreateDog(int clientId, 
             [FromBody] DogForCreationDto dog)
@@ -105,6 +89,7 @@ namespace doggo.Controllers
             {
                 Id = ++maxIndexDogId,
                 Name = dog.Name,
+                ShortName = dog.ShortName,
                 Breed = dog.Breed,
                 Birth = dog.Birth
             };
@@ -112,9 +97,10 @@ namespace doggo.Controllers
             client.Dogs.Add(finalDog);
 
             return CreatedAtRoute(
-                "GetDogs",
-                new { clientId = clientId, Id = finalDog.Id },
+                "GetDog",
+                new { clientId = clientId, id = finalDog.Id },
                 finalDog);
         }
+        */
     }
 }

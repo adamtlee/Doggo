@@ -1,4 +1,5 @@
 ﻿using doggo.Models;
+using doggo.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,10 @@ namespace doggo.Controllers
     [Route("api/clients/{clientId}/dogs")]
     public class DogsController : ControllerBase
     {
+        private readonly IClientInfoRepository _clientInfoRepository;
+
         [HttpGet("{id}", Name = "GetDogs")]
-        public IActionResult Index(int clientId, int id)
+        public IActionResult GetDogs(int clientId, int id)
         {
             var client = DoggoDataStore.DoggoData.Clients
                 .FirstOrDefault(c => c.Id == clientId);
@@ -35,7 +38,7 @@ namespace doggo.Controllers
 
         [HttpPost]
         public IActionResult CreateDog(int clientId, 
-            [FromBody] NewDogForCreationDto dog)
+            [FromBody] DogForCreationDto dog)
         {
             if (dog.Name == dog.ShortName)
             {

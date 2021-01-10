@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace doggo.Models
 {
-    public class NewDogForCreationDto
+    public class DogForCreationDto
     {
         [Required(ErrorMessage = "Name Cannot be blank.")]
         [MaxLength(50)]

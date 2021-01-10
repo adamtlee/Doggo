@@ -13,6 +13,14 @@ namespace doggo.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        
+        public int NumberOfDogs
+        {
+            get
+            {
+                return Dogs.Count;
+            }
+        }
         public ICollection<DogDto> Dogs { get; set; }
              = new List<DogDto>();
     }

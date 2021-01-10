@@ -14,6 +14,45 @@ namespace doggo.Controllers
     {
         private readonly IClientInfoRepository _clientInfoRepository;
 
+        public DogsController(IClientInfoRepository clientInfoRepository)
+        {
+            _clientInfoRepository = clientInfoRepository ??
+                throw new ArgumentException(nameof(clientInfoRepository));
+        }
+
+        [HttpGet]
+        public IActionResult GetDogs(int clientId)
+        {
+            try
+            {
+                if (!_clientInfoRepository.ClientExists(clientId))
+                {
+                    return NotFound();
+                }
+
+                var dogsOfClient = _clientInfoRepository.GetDogsForClient(clientId);
+
+                var dogsOfClientResults = new List<DogDto>();
+                foreach (var dog in dogsOfClient)
+                {
+                    dogsOfClientResults.Add(new DogDto()
+                    {
+                        Id = dog.Id,
+                        Name = dog.Name,
+                        ShortName = dog.ShortName,
+                        Breed = dog.Breed,
+                        Birth = dog.Birth
+                    });
+                }
+                return Ok(dogsOfClientResults);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, "A problem occured when handling the request");
+            }
+        }
+
         [HttpGet("{id}", Name = "GetDogs")]
         public IActionResult GetDogs(int clientId, int id)
         {

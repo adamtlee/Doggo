@@ -54,9 +54,15 @@ namespace doggo.Services
             var client = GetClient(clientId, false);
             client.Dogs.Add(dog);
         }
+        public void UpdateDogInformationForClient(int clientId, Dog dog)
+        {
+
+        }
         public bool Save()
         {
             return (_context.SaveChanges() >= 0);
         }
+
+       
     }
 }

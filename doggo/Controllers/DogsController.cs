@@ -15,7 +15,7 @@ namespace doggo.Controllers
     public class DogsController : ControllerBase
     {
         private readonly IClientInfoRepository _clientInfoRepository;
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
 
         public DogsController(IClientInfoRepository clientInfoRepository, IMapper mapper)
         {
@@ -39,7 +39,7 @@ namespace doggo.Controllers
 
                 return Ok(_mapper.Map<IEnumerable<DogDto>>(dogsOfClient));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500, "A problem occured when handling the request");
             }
@@ -48,7 +48,7 @@ namespace doggo.Controllers
         [HttpGet("{id}", Name = "GetDog")]
         public IActionResult GetDogs(int clientId, int id)
         {
-           if (!_clientInfoRepository.ClientExists(clientId))
+            if (!_clientInfoRepository.ClientExists(clientId))
             {
                 return NotFound();
             }
@@ -62,9 +62,9 @@ namespace doggo.Controllers
             return Ok(_mapper.Map<DogDto>(dog));
         }
 
-        
+
         [HttpPost]
-        public IActionResult CreateDog(int clientId, 
+        public IActionResult CreateDog(int clientId,
             [FromBody] DogForCreationDto dog)
         {
             if (dog.Name == dog.ShortName)
@@ -72,12 +72,12 @@ namespace doggo.Controllers
                 ModelState.AddModelError(
                     "ShortName",
                     "The Name and Short Name cannot be the same (please use less characters with short name field)");
-            } 
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-           
+
             if (!_clientInfoRepository.ClientExists(clientId))
             {
                 return NotFound();
@@ -144,7 +144,7 @@ namespace doggo.Controllers
             }
 
             var dogEntity = _clientInfoRepository
-                .GetDogForClient(clientId, id); 
+                .GetDogForClient(clientId, id);
             if (dogEntity == null)
             {
                 return NotFound();
@@ -175,6 +175,28 @@ namespace doggo.Controllers
             _mapper.Map(dogToPatch, dogEntity);
 
             _clientInfoRepository.UpdateDogInformationForClient(clientId, dogEntity);
+            _clientInfoRepository.Save();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteDogInformation(int clientId, int id)
+        {
+            if (!_clientInfoRepository.ClientExists(clientId))
+            {
+                return NotFound();
+            }
+
+            var dogEntity = _clientInfoRepository
+                .GetDogForClient(clientId, id);
+            if (dogEntity == null)
+            {
+                return NotFound();
+            }
+
+            _clientInfoRepository.DeleteDogInformation(dogEntity);
+
             _clientInfoRepository.Save();
 
             return NoContent();

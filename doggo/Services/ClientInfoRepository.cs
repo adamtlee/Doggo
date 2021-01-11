@@ -58,6 +58,11 @@ namespace doggo.Services
         {
 
         }
+
+        public void DeleteDogInformation(Dog dog)
+        {
+            _context.Dogs.Remove(dog);
+        }
         public bool Save()
         {
             return (_context.SaveChanges() >= 0);

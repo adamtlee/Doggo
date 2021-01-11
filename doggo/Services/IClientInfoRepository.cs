@@ -15,6 +15,7 @@ namespace doggo.Services
         bool ClientExists(int clientId);
         void AddDogForClient(int clientId, Dog dog);
         void UpdateDogInformationForClient(int clientId, Dog dog);
+        void DeleteDogInformation(Dog dog);
         bool Save();
 
 

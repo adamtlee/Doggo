@@ -48,6 +48,6 @@ namespace doggo.Controllers
             }
 
             return Ok(_mapper.Map<ClientWithoutDogsDto>(client));
-        }    
+        }   
     }
 }
